@@ -1,9 +1,9 @@
 :root {
     --text-main: #2c3e50;
     --text-light: #555555;
-    --bg-color: #f8f9fa;
-    --card-bg: #ffffff;
-    --border-color: #e2e8f0;
+    --bg-color: #ecf0f3; /* 3D canvas base color */
+    --card-bg: #ecf0f3;
+    --border-color: #d1d9e6;
     --primary-color: #2c3e50;
     /* The Professional Gradient */
     --theme-gradient: linear-gradient(135deg, #10b981, #3b82f6, #f59e0b);
@@ -16,280 +16,269 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Custom Animated 3D Background */
 body {
-    background-color: var(--bg-color);
+    /* Creates an oversized gradient background */
+    background: linear-gradient(-45deg, #ecf0f3, #d1d9e6, #ffffff, #e2e8f0);
+    background-size: 400% 400%;
+    
+    /* Triggers the endless moving animation */
+    animation: movingBackground 12s ease infinite;
+    background-attachment: fixed;
     color: var(--text-main);
+    overflow-x: hidden; 
 }
 
-/* Gradient Header */
-.gradient-header {
-    background: var(--theme-gradient);
-    color: white;
-    padding: 30px 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+/* The Background Animation Engine */
+@keyframes movingBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-.header-content {
+/* Academy Header Styling */
+.academy-header {
+    background-color: #0b1c3c;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    margin-bottom: 35px;
+}
+
+.header-image {
+    width: 100%;
     max-width: 1000px;
+    height: auto;
+    display: block;
     margin: 0 auto;
 }
 
-.header-content h1 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
+.header-titles {
+    background: var(--theme-gradient);
+    color: white;
+    padding: 25px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: inset 0 5px 15px rgba(0,0,0,0.2);
 }
 
-.header-content p {
-    font-size: 1rem;
-    opacity: 0.9;
+.header-titles h1 {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
+.header-titles h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    opacity: 0.95;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* 3D Dashboard Container */
 .dashboard {
     max-width: 1000px;
     margin: 30px auto;
-    padding: 0 20px;
+    padding: 25px;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    /* 3D Outset Shadow */
+    box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5);
+    animation: slideInUp 0.8s ease-out forwards;
 }
 
-/* Tabs Styling */
+@keyframes slideInUp {
+    0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 3D Tabs Styling */
 .tab-menu {
     display: flex;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 20px;
+    gap: 15px; 
+    margin-bottom: 25px;
+    padding-bottom: 10px;
 }
 
 .tab-link {
-    background: none;
+    background: var(--card-bg);
     border: none;
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-light);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent;
+    /* 3D Button Pop-Out Effect */
+    box-shadow: 5px 5px 10px #babecc, -5px -5px 10px #ffffff;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .tab-link:hover {
     color: #3b82f6;
+    /* Lifts up slightly on hover */
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 15px #babecc, -8px -8px 15px #ffffff;
 }
 
 .tab-link.active {
-    color: #10b981;
-    border-bottom: 3px solid #10b981;
+    background: var(--theme-gradient);
+    color: white;
+    /* 3D Pressed-In Effect */
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(255,255,255,0.3);
+    transform: translateY(2px);
 }
 
-/* Hide all tabs by default */
-.tab-content {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
-
-/* Show the active tab */
-.active-tab {
-    display: block;
-}
-
+.tab-content { display: none; animation: fadeIn 0.4s ease; }
+.active-tab { display: block; }
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards & Forms */
+/* 3D Cards & Forms */
 .card {
     background-color: var(--card-bg);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    /* Soft 3D Inset/Outset mix */
+    box-shadow: inset 2px 2px 5px #babecc, inset -3px -3px 7px #ffffff;
+    border: 1px solid rgba(255,255,255,0.5);
 }
 
-.card h2 {
-    margin-bottom: 25px;
-    font-size: 1.3rem;
+.card h2 { margin-bottom: 25px; font-size: 1.4rem; color: var(--primary-color); text-shadow: 1px 1px 2px #fff; }
+.section-title { margin: 15px 0 10px 0; font-size: 1.1rem; color: var(--primary-color); }
+.form-group { margin-bottom: 20px; display: flex; flex-direction: column; }
+.form-group-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+label { font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-light); text-shadow: 1px 1px 0px #fff; }
+
+input { 
+    padding: 14px; 
+    border: none; 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    background-color: var(--card-bg);
+    /* 3D Pressed Text Box */
+    box-shadow: inset 3px 3px 6px #babecc, inset -3px -3px 6px #ffffff;
+    transition: all 0.3s;
+    color: var(--text-main);
+    font-weight: 500;
+}
+input:focus { 
+    outline: none; 
+    box-shadow: inset 4px 4px 8px #a8b0c2, inset -4px -4px 8px #ffffff;
 }
 
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-label {
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: var(--text-light);
-}
-
-input {
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: #3b82f6;
-}
-
-/* Gradient Button */
+/* 3D Gradient Button with Push Animation */
 .btn-gradient {
     background: var(--theme-gradient);
     color: white;
     border: none;
-    padding: 14px 20px;
-    font-size: 1rem;
-    border-radius: 6px;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    border-radius: 10px;
     cursor: pointer;
     width: 100%;
     font-weight: bold;
-    margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: opacity 0.3s;
+    margin-top: 15px;
+    /* Thick 3D Bottom Edge & Shadow */
+    box-shadow: 0 6px 0 #0d7f5a, 0 12px 20px rgba(0,0,0,0.2);
+    transition: all 0.15s ease;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .btn-gradient:hover {
-    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #0d7f5a, 0 15px 25px rgba(0,0,0,0.3);
+}
+
+.btn-gradient:active {
+    /* Pushes the button into the screen */
+    transform: translateY(6px);
+    box-shadow: 0 0px 0 #0d7f5a, 0 4px 6px rgba(0,0,0,0.2);
 }
 
 /* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+th, td { padding: 15px; text-align: left; }
+th { color: var(--text-light); font-weight: 700; background-color: transparent; text-shadow: 1px 1px 0 #fff; }
 
-th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
+/* 3D Table Rows */
+#ledgerTable tbody tr {
+    background-color: var(--card-bg);
+    box-shadow: 4px 4px 8px #babecc, -4px -4px 8px #ffffff;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
 }
+#ledgerTable tbody tr:hover { transform: scale(1.01); }
+#ledgerTable td:first-child { border-radius: 10px 0 0 10px; }
+#ledgerTable td:last-child { border-radius: 0 10px 10px 0; }
 
-th {
-    color: var(--text-light);
-    font-weight: 600;
-    background-color: #f8fafc;
-}
-
-.status-badge {
-    background-color: #d1fae5;
-    color: #065f46;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+.btn-view {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
     font-weight: bold;
+    box-shadow: 0 4px 0 #1e40af, 0 6px 10px rgba(0,0,0,0.15);
+    transition: all 0.15s ease;
 }
+.btn-view:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #1e40af, 0 8px 15px rgba(0,0,0,0.2); }
+.btn-view:active { transform: translateY(4px); box-shadow: 0 0 0 #1e40af, 0 2px 4px rgba(0,0,0,0.1); }
 
 /* Document & Invoice Styling */
 .doc-header {
     background: var(--theme-gradient);
     color: white;
     padding: 20px;
-    border-radius: 8px 8px 0 0;
+    border-radius: 12px 12px 0 0;
     text-align: center;
     margin: -30px -30px 20px -30px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.doc-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--border-color);
-}
+.doc-meta { display: flex; justify-content: space-between; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--border-color); }
+.doc-details { margin-bottom: 20px; font-size: 1.1rem; }
+.doc-details p { margin-bottom: 5px; }
 
-.doc-details {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-}
+/* Invoice Inner Table */
+.doc-table { width: 100%; margin-bottom: 30px; background: white; border-radius: 8px; border-spacing: 0; box-shadow: inset 0 0 5px rgba(0,0,0,0.05); }
+.doc-table th { background-color: #f1f5f9; padding: 12px; border: 1px solid var(--border-color); }
+.doc-table td { padding: 12px; border: 1px solid var(--border-color); text-align: center; background-color: #fff; }
+.doc-table td:first-child, .doc-table th:first-child { text-align: left; }
 
-.doc-details p {
-    margin-bottom: 5px;
-}
+.doc-footer { text-align: right; border-top: 2px solid var(--text-main); padding-top: 15px; }
+.doc-footer h3 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 10px; }
 
-.doc-table {
-    width: 100%;
-    margin-bottom: 30px;
-    border: 1px solid var(--border-color);
-}
-
-.doc-table th {
-    background-color: #f1f5f9;
-}
-
-.doc-table th, .doc-table td {
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
-
-.doc-table td:first-child, .doc-table th:first-child {
-    text-align: left;
-}
-
-.doc-footer {
-    text-align: right;
-    border-top: 2px solid var(--text-main);
-    padding-top: 15px;
-}
-
-.doc-footer h3 {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.btn-view {
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.btn-view:hover {
-    background-color: #2563eb;
-}
-
-/* Status Dropdown Styling */
+/* 3D Dropdown Styling */
 .status-dropdown {
-    padding: 6px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
     font-size: 0.95rem;
     font-weight: bold;
-    background-color: #f8fafc;
+    background-color: var(--card-bg);
     cursor: pointer;
+    box-shadow: 3px 3px 6px #babecc, -3px -3px 6px #ffffff;
+    transition: all 0.2s ease;
     outline: none;
+    color: var(--text-main);
 }
+.status-dropdown:focus, .status-dropdown:hover { box-shadow: inset 2px 2px 5px #babecc, inset -2px -2px 5px #ffffff; }
 
-.status-dropdown:focus {
-    border-color: #3b82f6;
-}
-
-/* Print Rules - Hides buttons/tabs when printing and formats dropdowns */
+/* Print Rules - Cleans up 3D effects for pure paper printing */
 @media print {
     body { background-color: white; }
     .no-print { display: none !important; }
-    .card { border: none; box-shadow: none; padding: 0; }
+    .card { border: none; box-shadow: none; padding: 0; background: white; }
+    .dashboard { box-shadow: none; margin: 0; max-width: 100%; padding: 0; background: white; animation: none; }
     .print-area { display: block; width: 100%; }
-    .doc-header { margin: 0 0 20px 0; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .doc-header { margin: 0 0 20px 0; border-radius: 0; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     
-    .status-dropdown {
-        border: none;
-        background: transparent;
-        appearance: none; 
-        -webkit-appearance: none;
-        font-size: 1rem;
-        font-weight: bold;
-        color: var(--text-main);
-    }
+    .doc-table, .doc-table td { background-color: white !important; box-shadow: none !important; }
+    .status-dropdown { border: none; background: transparent; box-shadow: none; appearance: none; -webkit-appearance: none; font-size: 1rem; font-weight: bold; color: var(--text-main); }
 }
