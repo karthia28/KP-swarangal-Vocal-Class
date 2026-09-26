@@ -1,0 +1,295 @@
+:root {
+    --text-main: #2c3e50;
+    --text-light: #555555;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --primary-color: #2c3e50;
+    /* The Professional Gradient */
+    --theme-gradient: linear-gradient(135deg, #10b981, #3b82f6, #f59e0b);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
+
+/* Gradient Header */
+.gradient-header {
+    background: var(--theme-gradient);
+    color: white;
+    padding: 30px 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header-content h1 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.header-content p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.dashboard {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Tabs Styling */
+.tab-menu {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tab-link {
+    background: none;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-link:hover {
+    color: #3b82f6;
+}
+
+.tab-link.active {
+    color: #10b981;
+    border-bottom: 3px solid #10b981;
+}
+
+/* Hide all tabs by default */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Show the active tab */
+.active-tab {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards & Forms */
+.card {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid var(--border-color);
+}
+
+.card h2 {
+    margin-bottom: 25px;
+    font-size: 1.3rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+/* Gradient Button */
+.btn-gradient {
+    background: var(--theme-gradient);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: opacity 0.3s;
+}
+
+.btn-gradient:hover {
+    opacity: 0.9;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    color: var(--text-light);
+    font-weight: 600;
+    background-color: #f8fafc;
+}
+
+.status-badge {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Document & Invoice Styling */
+.doc-header {
+    background: var(--theme-gradient);
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    margin: -30px -30px 20px -30px; 
+}
+
+.doc-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.doc-details {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.doc-details p {
+    margin-bottom: 5px;
+}
+
+.doc-table {
+    width: 100%;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.doc-table th {
+    background-color: #f1f5f9;
+}
+
+.doc-table th, .doc-table td {
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.doc-table td:first-child, .doc-table th:first-child {
+    text-align: left;
+}
+
+.doc-footer {
+    text-align: right;
+    border-top: 2px solid var(--text-main);
+    padding-top: 15px;
+}
+
+.doc-footer h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.btn-view {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-view:hover {
+    background-color: #2563eb;
+}
+
+/* Status Dropdown Styling */
+.status-dropdown {
+    padding: 6px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background-color: #f8fafc;
+    cursor: pointer;
+    outline: none;
+}
+
+.status-dropdown:focus {
+    border-color: #3b82f6;
+}
+
+/* Print Rules - Hides buttons/tabs when printing and formats dropdowns */
+@media print {
+    body { background-color: white; }
+    .no-print { display: none !important; }
+    .card { border: none; box-shadow: none; padding: 0; }
+    .print-area { display: block; width: 100%; }
+    .doc-header { margin: 0 0 20px 0; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    
+    .status-dropdown {
+        border: none;
+        background: transparent;
+        appearance: none; 
+        -webkit-appearance: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--text-main);
+    }
+}

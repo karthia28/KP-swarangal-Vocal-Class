@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangeetham Tuition Records</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="gradient-header no-print">
+        <div class="header-content">
+            <h1>Tuition Record System</h1>
+            <p>Monthly Invoice & Payment Documentation</p>
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <!-- Tab Navigation -->
+        <div class="tab-menu no-print">
+            <button class="tab-link active" onclick="openTab(event, 'RecordTab')">📝 Record Monthly Session</button>
+            <button class="tab-link" onclick="openTab(event, 'LedgerTab')">📁 Monthly Ledger</button>
+            <button class="tab-link" id="docTabBtn" onclick="openTab(event, 'DocumentTab')">📄 Invoice & Receipt</button>
+            <button class="tab-link" onclick="openTab(event, 'SyncTab')">🔄 Data Sync</button>
+        </div>
+
+        <!-- Tab 1: Data Entry -->
+        <div id="RecordTab" class="tab-content active-tab no-print">
+            <div class="card">
+                <h2>Generate 1-Month Record (4 Classes)</h2>
+                <form id="recordForm">
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="studentName">Student Name</label>
+                            <input type="text" id="studentName" required placeholder="Enter student name">
+                        </div>
+                        <div class="form-group">
+                            <label for="billingMonth">Select Billing Month</label>
+                            <input type="month" id="billingMonth" required> 
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ratePerClass">Rate per Class ($)</label>
+                        <input type="number" id="ratePerClass" required min="1" step="0.5" placeholder="e.g., 30">
+                    </div>
+
+                    <h3 style="margin: 15px 0 10px 0; font-size: 1rem; color: var(--primary-color);">Select Class Dates</h3>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="class1">Class 1</label>
+                            <input type="date" id="class1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class2">Class 2</label>
+                            <input type="date" id="class2" required>
+                        </div>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="class3">Class 3</label>
+                            <input type="date" id="class3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class4">Class 4</label>
+                            <input type="date" id="class4" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-gradient">Document Monthly Payment</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab 2: Ledger -->
+        <div id="LedgerTab" class="tab-content no-print">
+            <div class="card ledger-section">
+                <h2>Monthly Documentation Ledger</h2>
+                <table id="ledgerTable">
+                    <thead>
+                        <tr>
+                            <th>Receipt ID</th>
+                            <th>Billing Month</th>
+                            <th>Student Name</th>
+                            <th>Rate/Class</th>
+                            <th>Total Invoiced</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledgerBody">
+                        <!-- New monthly rows appear here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab 3: Invoice & Receipt Document (Printable) -->
+        <div id="DocumentTab" class="tab-content">
+            <div class="card print-area" id="printSection">
+                <div class="doc-header">
+                    <h2>SANGEETHAM ACADEMY</h2>
+                    <p>Official Invoice & Payment Receipt</p>
+                </div>
+                
+                <div class="doc-meta">
+                    <div>
+                        <strong>Receipt No:</strong> <span id="docId">-</span><br>
+                        <strong>Issue Date:</strong> <span id="docDate">-</span>
+                    </div>
+                </div>
+
+                <div class="doc-details">
+                    <p><strong>Billed To (Student):</strong> <span id="docName">-</span></p>
+                    <p><strong>Billing Period:</strong> <span id="docMonth">-</span></p>
+                </div>
+
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Class Date</th>
+                            <th>Description</th>
+                            <th>Rate</th>
+                            <th>Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="docTableBody">
+                        <!-- JavaScript will inject the 4 class rows here -->
+                    </tbody>
+                </table>
+
+                <div class="doc-footer">
+                    <h3>Grand Total: <span id="docGrandTotal">$0.00</span></h3>
+                    <p><em>Thank you for your dedication to music!</em></p>
+                </div>
+            </div>
+            <button onclick="window.print()" class="btn-gradient no-print" style="margin-top: 20px;">🖨️ Print / Save as PDF</button>
+        </div>
+
+        <!-- Tab 4: Data Sync -->
+        <div id="SyncTab" class="tab-content no-print">
+            <div class="card sync-card">
+                <h2>Import Excel Data</h2>
+                <p>Upload your Excel <strong>.CSV</strong> file here to populate historical records.</p>
+                <input type="file" id="csvUpload" accept=".csv" disabled>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
