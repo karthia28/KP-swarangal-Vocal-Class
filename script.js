@@ -1,21 +1,17 @@
 // Logic for switching tabs
 function openTab(event, tabName) {
-    // Hide all tab content
     let tabContents = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContents.length; i++) {
         tabContents[i].classList.remove("active-tab");
     }
 
-    // Remove 'active' class from all tab buttons
     let tabLinks = document.getElementsByClassName("tab-link");
     for (let i = 0; i < tabLinks.length; i++) {
         tabLinks[i].classList.remove("active");
     }
 
-    // Show the specific tab content
     document.getElementById(tabName).classList.add("active-tab");
     
-    // Add 'active' styling to the clicked button (or fallback for programmatic clicks)
     if(event) {
         event.currentTarget.classList.add("active");
     } else {
@@ -23,7 +19,7 @@ function openTab(event, tabName) {
     }
 }
 
-// Global array to store records temporarily in the browser memory
+// Global array to store records temporarily
 const records = {};
 
 // Form submission logic
@@ -32,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const ledgerBody = document.getElementById("ledgerBody");
 
     form.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent page reload
+        event.preventDefault();
 
         // Capture basic data
         const name = document.getElementById("studentName").value;
@@ -46,19 +42,19 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("class4").value
         ];
 
-        // Format the billing month neatly (e.g., "September 2026")
+        // Format month
         const rawMonth = document.getElementById("billingMonth").value;
         const [year, month] = rawMonth.split("-");
         const dateObj = new Date(year, month - 1);
         const formattedMonth = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
 
-        // Calculations & ID (4 classes total)
+        // Calculations & ID
         const totalAmount = (rate * 4).toFixed(2);
         const now = new Date();
         const receiptId = "REC-" + now.getTime().toString().slice(-6);
         const issueDate = now.toLocaleDateString();
 
-        // Store data in the global records object
+        // Store data
         records[receiptId] = {
             id: receiptId,
             date: issueDate,
@@ -69,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
             total: totalAmount
         };
 
-        // Create a new row in the Ledger Tab
+        // Create Ledger Row
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
             <td><strong>${receiptId}</strong><br><small style="color: #888;">${issueDate}</small></td>
@@ -82,38 +78,34 @@ document.addEventListener("DOMContentLoaded", function() {
             </td>
         `;
 
-        // Insert at the top of the ledger table
         ledgerBody.insertBefore(newRow, ledgerBody.firstChild);
-        
-        // Clear the form fields for the next entry
         form.reset();
         
-        // Auto-switch to the Ledger tab
+        // Auto-switch to ledger
         openTab({currentTarget: document.getElementsByClassName("tab-link")[1]}, 'LedgerTab');
     });
 });
 
-// Function to populate and open the Invoice & Receipt Document
+// Function to populate and open the Invoice Document
 function generateDocument(receiptId) {
     const data = records[receiptId];
     
-    // Inject header data into the Document Tab
+    // Inject header data
     document.getElementById("docId").innerText = data.id;
     document.getElementById("docDate").innerText = data.date;
     document.getElementById("docName").innerText = data.name;
     document.getElementById("docMonth").innerText = data.month;
     document.getElementById("docGrandTotal").innerText = "$" + data.total;
 
-    // Inject 4 Class Rows dynamically into the invoice table
+    // Inject 4 Class Rows dynamically with Dropdowns
     const docTableBody = document.getElementById("docTableBody");
     docTableBody.innerHTML = ""; // clear previous rows
     
     data.classes.forEach((classDate, index) => {
-        // Convert YYYY-MM-DD to a cleaner format (DD/MM/YYYY)
+        // Convert YYYY-MM-DD to DD/MM/YYYY
         const [cyear, cmonth, cday] = classDate.split("-");
         const cleanDate = `${cday}/${cmonth}/${cyear}`;
 
-        // Build the HTML for each class row including the dropdown
         docTableBody.innerHTML += `
             <tr>
                 <td><strong>${cleanDate}</strong></td>
@@ -129,6 +121,6 @@ function generateDocument(receiptId) {
         `;
     });
 
-    // Switch view automatically to the Document Tab
+    // Switch to Document Tab
     openTab(null, 'DocumentTab');
 }
