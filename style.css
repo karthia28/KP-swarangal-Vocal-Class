@@ -27,7 +27,7 @@ body {
     filter: blur(80px);
     z-index: -1;
     opacity: 0.4;
-    pointer-events: none; /* Fixed: Prevents orbs from blocking mouse clicks */
+    pointer-events: none;
     animation: floatOrb 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 .orb-1 { width: 400px; height: 400px; background: #E6D4FF; top: -100px; left: -100px; }
@@ -160,13 +160,12 @@ body {
 .btn-elegant:hover::after { opacity: 1; animation: rotate 2s linear infinite; }
 @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-/* Fixed Print Button Positioning */
 .print-btn { 
     max-width: 300px; 
     margin: 30px auto; 
     display: block; 
     position: relative;
-    z-index: 999; /* Forces the button above any other elements */
+    z-index: 999; 
 }
 
 /* --- TABLES & BADGES --- */
