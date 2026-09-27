@@ -20,23 +20,25 @@ body {
     from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes pulseLogo {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.4); }
     70% { transform: scale(1.05); box-shadow: 0 0 15px 10px rgba(106, 17, 203, 0); }
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
 }
 
-/* Header UI */
+/* Header UI & Image Upload Elements */
 .academy-header {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    position: relative;
+    /* The gradient acts as an overlay on top of any uploaded banner */
+    background: linear-gradient(135deg, rgba(106, 17, 203, 0.85), rgba(37, 117, 252, 0.85)), url('WhatsApp Image 2026-09-26 at 16.09.16.jpeg');
+    background-size: cover;
+    background-position: center;
     color: white;
-    padding: 30px 20px;
+    padding: 40px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,136 +47,100 @@ body {
     animation: fadeInDown 0.8s ease-out;
 }
 
+.edit-controls {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+.logo-container {
+    position: relative;
+    display: inline-block;
+}
+
 .logo {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid white;
     animation: pulseLogo 2.5s infinite;
+    background-color: white; /* In case of transparency */
 }
 
-.header-titles h1 { margin: 0; font-size: 2.2rem; letter-spacing: 1px; }
-.header-titles h2 { margin: 5px 0 0 0; font-weight: 300; font-size: 1.2rem; opacity: 0.9; }
+/* Edit Buttons (Camera icons) */
+.edit-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+}
+.edit-btn:hover {
+    background: #ffffff;
+    transform: scale(1.05);
+}
+
+.logo-edit {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 8px;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.header-titles h1 { margin: 0; font-size: 2.2rem; letter-spacing: 1px; text-shadow: 1px 1px 4px rgba(0,0,0,0.4); }
+.header-titles h2 { margin: 5px 0 0 0; font-weight: 300; font-size: 1.2rem; opacity: 0.9; text-shadow: 1px 1px 4px rgba(0,0,0,0.4); }
 
 /* Dashboard & Tabs */
-.dashboard {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 20px;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.tab-menu {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
+.dashboard { max-width: 900px; margin: 30px auto; padding: 0 20px; animation: fadeInUp 0.8s ease-out 0.2s both; }
+.tab-menu { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .tab-link {
-    background: #e0e5ec;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #555;
-    transition: all 0.3s ease;
+    background: #e0e5ec; border: none; padding: 12px 20px; border-radius: 8px;
+    cursor: pointer; font-weight: 600; color: #555; transition: all 0.3s ease;
 }
-
-.tab-link:hover {
-    background: #d1d8e0;
-    transform: translateY(-2px);
-}
-
-.tab-link.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
-}
+.tab-link:hover { background: #d1d8e0; transform: translateY(-2px); }
+.tab-link.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3); }
 
 .tab-content { display: none; }
-.tab-content.active-tab { 
-    display: block; 
-    animation: fadeInUp 0.5s ease-out;
-}
+.tab-content.active-tab { display: block; animation: fadeInUp 0.5s ease-out; }
 
 /* Forms & Cards */
-.card {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-}
-
-.form-group-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.form-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
+.card { background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+.form-group-row { display: flex; gap: 20px; margin-bottom: 15px; flex-wrap: wrap; }
+.form-group { flex: 1; display: flex; flex-direction: column; }
 label { margin-bottom: 8px; font-weight: 600; color: #444; }
 
 input, select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: inherit;
-    transition: border-color 0.3s;
+    padding: 10px; border: 1px solid #ccc; border-radius: 6px;
+    font-family: inherit; transition: border-color 0.3s;
 }
-
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 5px rgba(106, 17, 203, 0.2);
-}
-
-.input-group {
-    display: flex;
-    gap: 10px;
-}
-
+input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px rgba(106, 17, 203, 0.2); }
+.input-group { display: flex; gap: 10px; }
 .input-group input { flex: 1; }
 .input-group select { flex: 1; cursor: pointer; }
 
 /* Buttons */
 .btn-gradient {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 20px;
+    color: white; border: none; padding: 12px 25px; border-radius: 8px;
+    font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 20px;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
-.btn-gradient:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
-}
+.btn-gradient:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4); }
 
 /* Table & Document Styling */
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
 th { background-color: #f8f9fa; color: #333; }
 
-.status-badge {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
-}
+.status-badge { padding: 5px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
 .status-attended { background: #d4edda; color: #155724; }
 .status-noclass, .status-cancelled { background: #f8d7da; color: #721c24; }
 .status-absence { background: #fff3cd; color: #856404; }
