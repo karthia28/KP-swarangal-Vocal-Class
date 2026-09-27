@@ -1,126 +1,94 @@
-// Logic for switching tabs
-function openTab(event, tabName) {
-    let tabContents = document.getElementsByClassName("tab-content");
-    for (let i = 0; i < tabContents.length; i++) {
-        tabContents[i].classList.remove("active-tab");
+// Tab Navigation Logic
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    
+    // Hide all tab content
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active-tab");
     }
-
-    let tabLinks = document.getElementsByClassName("tab-link");
-    for (let i = 0; i < tabLinks.length; i++) {
-        tabLinks[i].classList.remove("active");
+    
+    // Remove "active" class from all tab buttons
+    tablinks = document.getElementsByClassName("tab-link");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-
+    
+    // Show current tab and add active class to button clicked
     document.getElementById(tabName).classList.add("active-tab");
-    
-    if(event) {
-        event.currentTarget.classList.add("active");
-    } else {
-        document.getElementById("docTabBtn").classList.add("active");
-    }
+    evt.currentTarget.className += " active";
 }
 
-// Global array to store records temporarily
-const records = {};
+// Form Submission & Invoice Generation Logic
+document.getElementById('recordForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-// Form submission logic
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("recordForm");
-    const ledgerBody = document.getElementById("ledgerBody");
+    // Get standard form data
+    const studentName = document.getElementById('studentName').value;
+    const billingMonth = document.getElementById('billingMonth').value;
+    const ratePerClass = parseFloat(document.getElementById('ratePerClass').value);
+    
+    let totalAmount = 0;
+    const docTableBody = document.getElementById('docTableBody');
+    docTableBody.innerHTML = ""; // Clear previous records
 
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
+    // Generate receipt ID and Date
+    const receiptId = 'INV-' + Math.floor(Math.random() * 100000);
+    const today = new Date().toLocaleDateString();
 
-        // Capture basic data
-        const name = document.getElementById("studentName").value;
-        const rate = parseFloat(document.getElementById("ratePerClass").value);
-
-        // Capture 4 Class Dates
-        const classDates = [
-            document.getElementById("class1").value,
-            document.getElementById("class2").value,
-            document.getElementById("class3").value,
-            document.getElementById("class4").value
-        ];
-
-        // Format month
-        const rawMonth = document.getElementById("billingMonth").value;
-        const [year, month] = rawMonth.split("-");
-        const dateObj = new Date(year, month - 1);
-        const formattedMonth = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
-
-        // Calculations & ID
-        const totalAmount = (rate * 4).toFixed(2);
-        const now = new Date();
-        const receiptId = "REC-" + now.getTime().toString().slice(-6);
-        const issueDate = now.toLocaleDateString();
-
-        // Store data
-        records[receiptId] = {
-            id: receiptId,
-            date: issueDate,
-            name: name,
-            month: formattedMonth,
-            rate: rate.toFixed(2),
-            classes: classDates,
-            total: totalAmount
-        };
-
-        // Create Ledger Row
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-            <td><strong>${receiptId}</strong><br><small style="color: #888;">${issueDate}</small></td>
-            <td><strong>${formattedMonth}</strong></td>
-            <td>${name}</td>
-            <td>$${rate.toFixed(2)}</td>
-            <td><strong>$${totalAmount}</strong></td>
-            <td>
-                <button class="btn-view" onclick="generateDocument('${receiptId}')">📄 View Invoice</button>
-            </td>
-        `;
-
-        ledgerBody.insertBefore(newRow, ledgerBody.firstChild);
-        form.reset();
+    // Process all 4 classes
+    for(let i = 1; i <= 4; i++) {
+        const classDate = document.getElementById('class' + i).value;
+        const status = document.getElementById('status' + i).value;
         
-        // Auto-switch to ledger
-        openTab({currentTarget: document.getElementsByClassName("tab-link")[1]}, 'LedgerTab');
-    });
+        // Determine logic for billing: if cancelled or no class, we don't charge. 
+        // If Attended or Student Absence, they still pay.
+        let charge = ratePerClass;
+        let badgeClass = 'status-attended';
+
+        if(status === 'No Class' || status === 'Class Cancelled') {
+            charge = 0; // Don't charge for these
+            badgeClass = 'status-cancelled';
+        } else if (status === 'Student Absence') {
+            badgeClass = 'status-absence';
+        }
+
+        totalAmount += charge;
+
+        // Add row to invoice table
+        const row = `<tr>
+            <td>${classDate}</td>
+            <td><span class="status-badge ${badgeClass}">${status}</span></td>
+            <td>${charge.toFixed(2)}</td>
+        </tr>`;
+        docTableBody.innerHTML += row;
+    }
+
+    // Update Invoice Document Text
+    document.getElementById('docId').innerText = receiptId;
+    document.getElementById('docDate').innerText = today;
+    document.getElementById('docName').innerText = studentName;
+    document.getElementById('docMonth').innerText = billingMonth;
+    document.getElementById('docGrandTotal').innerText = totalAmount.toFixed(2);
+
+    // Add to Ledger Tab
+    const ledgerBody = document.getElementById('ledgerBody');
+    if(ledgerBody.innerHTML.includes('No records yet')) { 
+        ledgerBody.innerHTML = ''; 
+    }
+    
+    const ledgerRow = `<tr>
+        <td>${receiptId}</td>
+        <td>${billingMonth}</td>
+        <td>${studentName}</td>
+        <td>${ratePerClass.toFixed(2)}</td>
+        <td><strong>${totalAmount.toFixed(2)}</strong></td>
+    </tr>`;
+    ledgerBody.innerHTML += ledgerRow;
+
+    // Automatically switch to Document Tab so the user sees the generated invoice
+    document.getElementById('docTabBtn').click();
+    
+    // Optional: Reset form for the next student
+    document.getElementById('recordForm').reset();
 });
-
-// Function to populate and open the Invoice Document
-function generateDocument(receiptId) {
-    const data = records[receiptId];
-    
-    // Inject header data
-    document.getElementById("docId").innerText = data.id;
-    document.getElementById("docDate").innerText = data.date;
-    document.getElementById("docName").innerText = data.name;
-    document.getElementById("docMonth").innerText = data.month;
-    document.getElementById("docGrandTotal").innerText = "$" + data.total;
-
-    // Inject 4 Class Rows dynamically with Dropdowns
-    const docTableBody = document.getElementById("docTableBody");
-    docTableBody.innerHTML = ""; // clear previous rows
-    
-    data.classes.forEach((classDate, index) => {
-        // Convert YYYY-MM-DD to DD/MM/YYYY
-        const [cyear, cmonth, cday] = classDate.split("-");
-        const cleanDate = `${cday}/${cmonth}/${cyear}`;
-
-        docTableBody.innerHTML += `
-            <tr>
-                <td><strong>${cleanDate}</strong></td>
-                <td>Sangeetham Session ${index + 1}</td>
-                <td>$${data.rate}</td>
-                <td>
-                    <select class="status-dropdown">
-                        <option value="Unpaid">❌ Unpaid</option>
-                        <option value="Paid">✅ Paid</option>
-                    </select>
-                </td>
-            </tr>
-        `;
-    });
-
-    // Switch to Document Tab
-    openTab(null, 'DocumentTab');
-}
