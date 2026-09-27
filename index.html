@@ -4,65 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KP Swarangal Tuition Records</title>
+    
+    <!-- Elegant Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Academy Header with Edit Options -->
+    <!-- Background Animation Elements -->
+    <div class="bg-orb orb-1 no-print"></div>
+    <div class="bg-orb orb-2 no-print"></div>
+
+    <!-- Elegant Header -->
     <header class="academy-header no-print" id="headerBanner">
-        <!-- Banner Upload Button -->
-        <div class="edit-controls">
-            <label for="bannerUpload" class="edit-btn">📷 Change Banner Background</label>
+        <div class="edit-controls fade-in-delay">
+            <label for="bannerUpload" class="edit-btn">✦ Change Banner</label>
             <input type="file" id="bannerUpload" accept="image/*" style="display:none;">
         </div>
         
-        <!-- Logo with Upload Button -->
-        <div class="logo-container">
-            <img src="logo.png" alt="KP Swarangal Logo" class="logo" id="logoImg" onerror="this.src='https://via.placeholder.com/90?text=Logo'">
-            <label for="logoUpload" class="edit-btn logo-edit" title="Upload Logo">📷</label>
-            <input type="file" id="logoUpload" accept="image/*" style="display:none;">
-        </div>
-        
-        <div class="header-titles">
-            <h1>KP Swarangal Vocal Class</h1>
-            <h2>Online and Physical Class</h2>
+        <div class="header-content fade-in-up">
+            <div class="logo-container">
+                <img src="logo.png" alt="KP Swarangal Logo" class="logo" id="logoImg" onerror="this.src='https://via.placeholder.com/120?text=Logo'">
+                <label for="logoUpload" class="logo-edit" title="Upload Logo">📷</label>
+                <input type="file" id="logoUpload" accept="image/*" style="display:none;">
+            </div>
+            
+            <div class="header-titles">
+                <h1>KP Swarangal Vocal Class</h1>
+                <h2>Online & Physical Academy</h2>
+            </div>
         </div>
     </header>
 
-    <div class="dashboard">
-        <!-- Tab Navigation -->
-        <div class="tab-menu no-print">
-            <button class="tab-link active" onclick="openTab(event, 'RecordTab')">📝 Record Monthly Session</button>
-            <button class="tab-link" onclick="openTab(event, 'LedgerTab')">📁 Monthly Ledger</button>
-            <button class="tab-link" id="docTabBtn" onclick="openTab(event, 'DocumentTab')">📄 Invoice & Receipt</button>
-            <button class="tab-link" onclick="openTab(event, 'SyncTab')">🔄 Data Sync</button>
+    <div class="dashboard fade-in-up-delay">
+        
+        <!-- FLUID SLIDING TAB MENU -->
+        <div class="tab-container no-print">
+            <div class="tab-menu" id="tabMenu">
+                <div class="tab-indicator" id="tabIndicator"></div>
+                <button class="tab-link active" onclick="openTab(event, 'RecordTab')">Record Session</button>
+                <button class="tab-link" onclick="openTab(event, 'LedgerTab')">Ledger</button>
+                <button class="tab-link" id="docTabBtn" onclick="openTab(event, 'DocumentTab')">Invoice</button>
+                <button class="tab-link" onclick="openTab(event, 'SyncTab')">Data Sync</button>
+            </div>
         </div>
 
         <!-- Tab 1: Data Entry -->
         <div id="RecordTab" class="tab-content active-tab no-print">
-            <div class="card">
-                <h2>Generate 1-Month Record (4 Classes)</h2>
+            <div class="card glass-panel">
+                <h2 class="card-title">Generate Session Record</h2>
                 <form id="recordForm">
                     <div class="form-group-row">
-                        <div class="form-group">
+                        <div class="form-group input-wrapper">
                             <label for="studentName">Student Name</label>
-                            <input type="text" id="studentName" required placeholder="Enter student name">
+                            <input type="text" id="studentName" required placeholder="e.g. John Doe">
                         </div>
-                        <div class="form-group">
-                            <label for="billingMonth">Select Billing Month</label>
+                        <div class="form-group input-wrapper">
+                            <label for="billingMonth">Billing Month</label>
                             <input type="month" id="billingMonth" required> 
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group input-wrapper" style="max-width: 50%;">
                         <label for="ratePerClass">Rate per Class (RM/$)</label>
-                        <input type="number" id="ratePerClass" required min="1" step="0.5" placeholder="e.g., 50">
+                        <input type="number" id="ratePerClass" required min="1" step="0.5" placeholder="50.00">
                     </div>
 
-                    <h3 class="section-title">Select Class Dates & Status</h3>
+                    <div class="divider"></div>
+                    <h3 class="section-title">Schedule & Attendance</h3>
                     
                     <div class="form-group-row">
-                        <div class="form-group">
-                            <label for="class1">Class 1</label>
+                        <div class="form-group input-wrapper">
+                            <label>Class 1</label>
                             <div class="input-group">
                                 <input type="date" id="class1" required>
                                 <select id="status1">
@@ -73,8 +88,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="class2">Class 2</label>
+                        <div class="form-group input-wrapper">
+                            <label>Class 2</label>
                             <div class="input-group">
                                 <input type="date" id="class2" required>
                                 <select id="status2">
@@ -88,8 +103,8 @@
                     </div>
 
                     <div class="form-group-row">
-                        <div class="form-group">
-                            <label for="class3">Class 3</label>
+                        <div class="form-group input-wrapper">
+                            <label>Class 3</label>
                             <div class="input-group">
                                 <input type="date" id="class3" required>
                                 <select id="status3">
@@ -100,8 +115,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="class4">Class 4</label>
+                        <div class="form-group input-wrapper">
+                            <label>Class 4</label>
                             <div class="input-group">
                                 <input type="date" id="class4" required>
                                 <select id="status4">
@@ -114,78 +129,93 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-gradient">Document Monthly Payment</button>
+                    <button type="submit" class="btn-elegant glow-effect">Generate Official Invoice</button>
                 </form>
             </div>
         </div>
 
         <!-- Tab 2: Ledger -->
         <div id="LedgerTab" class="tab-content no-print">
-            <div class="card ledger-section">
-                <h2>Monthly Documentation Ledger</h2>
-                <table id="ledgerTable">
-                    <thead>
-                        <tr>
-                            <th>Receipt ID</th>
-                            <th>Billing Month</th>
-                            <th>Student Name</th>
-                            <th>Rate/Class</th>
-                            <th>Total Invoiced</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ledgerBody">
-                        <tr><td colspan="5" style="text-align:center; color:#888;">No records yet.</td></tr>
-                    </tbody>
-                </table>
+            <div class="card glass-panel">
+                <h2 class="card-title">Documentation Ledger</h2>
+                <div class="table-container">
+                    <table id="ledgerTable">
+                        <thead>
+                            <tr>
+                                <th>Receipt ID</th>
+                                <th>Billing Month</th>
+                                <th>Student Name</th>
+                                <th>Rate/Class</th>
+                                <th>Total Invoiced</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ledgerBody">
+                            <tr><td colspan="5" class="empty-state">No records generated yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Tab 3: Invoice & Receipt Document (Printable) -->
+        <!-- Tab 3: Invoice Document -->
         <div id="DocumentTab" class="tab-content">
-            <div class="card print-area" id="printSection">
-                <div class="doc-header">
-                    <h2>KP SWARANGAL VOCAL CLASS</h2>
-                    <p>Official Invoice & Payment Receipt</p>
-                </div>
-                
-                <div class="doc-meta" style="display:flex; justify-content: space-between; margin-bottom: 20px;">
-                    <div>
-                        <strong>Receipt No:</strong> <span id="docId">INV-0000</span><br>
-                        <strong>Issue Date:</strong> <span id="docDate">-</span>
+            <div class="card invoice-card print-area" id="printSection">
+                <div class="invoice-border">
+                    <div class="doc-header">
+                        <h2>KP SWARANGAL VOCAL CLASS</h2>
+                        <p class="subtitle">Official Invoice & Payment Receipt</p>
                     </div>
-                    <div style="text-align: right;">
-                        <strong>Billed To:</strong> <span id="docName">-</span><br>
-                        <strong>Billing Period:</strong> <span id="docMonth">-</span>
+                    
+                    <div class="doc-meta">
+                        <div class="meta-box">
+                            <span class="meta-label">Receipt No</span>
+                            <span class="meta-value" id="docId">INV-0000</span>
+                            <span class="meta-label" style="margin-top:10px;">Issue Date</span>
+                            <span class="meta-value" id="docDate">-</span>
+                        </div>
+                        <div class="meta-box align-right">
+                            <span class="meta-label">Billed To</span>
+                            <span class="meta-value highlight" id="docName">-</span>
+                            <span class="meta-label" style="margin-top:10px;">Billing Period</span>
+                            <span class="meta-value" id="docMonth">-</span>
+                        </div>
                     </div>
-                </div>
 
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Class Date</th>
-                            <th>Status</th>
-                            <th>Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody id="docTableBody">
-                        <!-- JavaScript will inject the 4 class rows here -->
-                    </tbody>
-                </table>
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th>Session Date</th>
+                                <th>Attendance Status</th>
+                                <th style="text-align:right;">Charge</th>
+                            </tr>
+                        </thead>
+                        <tbody id="docTableBody">
+                            <!-- JS injects rows here -->
+                        </tbody>
+                    </table>
 
-                <div class="doc-footer">
-                    <h3>Grand Total: <span id="docGrandTotal">0.00</span></h3>
-                    <p><em>Thank you for your dedication to music!</em></p>
+                    <div class="doc-footer">
+                        <div class="total-box">
+                            <span>Grand Total</span>
+                            <h3 id="docGrandTotal">$0.00</h3>
+                        </div>
+                        <p class="gratitude">Thank you for your dedication to the art of music.</p>
+                    </div>
                 </div>
             </div>
-            <button onclick="window.print()" class="btn-gradient no-print" style="margin-top: 20px;">🖨️ Print / Save as PDF</button>
+            <button onclick="window.print()" class="btn-elegant no-print print-btn">🖨️ Print / Save as PDF</button>
         </div>
 
-        <!-- Tab 4: Data Sync -->
+        <!-- Tab 4: Sync -->
         <div id="SyncTab" class="tab-content no-print">
-            <div class="card sync-card">
-                <h2>Import Excel Data</h2>
-                <p>Upload your Excel <strong>.CSV</strong> file here to populate historical records.</p>
-                <input type="file" id="csvUpload" accept=".csv" disabled>
+            <div class="card glass-panel text-center">
+                <h2 class="card-title">Database Sync</h2>
+                <p style="color: #666; margin-bottom: 25px;">Upload your historical <strong>.CSV</strong> records.</p>
+                <label class="upload-area">
+                    <input type="file" id="csvUpload" accept=".csv" disabled>
+                    <div class="upload-icon">☁️</div>
+                    <span>Click to browse files</span>
+                </label>
             </div>
         </div>
     </div>
