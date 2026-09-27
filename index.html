@@ -4,12 +4,206 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KP Swarangal Tuition Records</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- UI ANIMATIONS & MODERN STYLING --- */
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 15px 10px rgba(106, 17, 203, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
+        }
+
+        /* Header UI */
+        .academy-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            animation: pulseLogo 2.5s infinite;
+        }
+
+        .header-titles h1 { margin: 0; font-size: 2.2rem; letter-spacing: 1px; }
+        .header-titles h2 { margin: 5px 0 0 0; font-weight: 300; font-size: 1.2rem; opacity: 0.9; }
+
+        /* Dashboard & Tabs */
+        .dashboard {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .tab-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-link {
+            background: #e0e5ec;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+
+        .tab-link:hover {
+            background: #d1d8e0;
+            transform: translateY(-2px);
+        }
+
+        .tab-link.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active-tab { 
+            display: block; 
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Forms & Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-group-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label { margin-bottom: 8px; font-weight: 600; color: #444; }
+        
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.2);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .input-group input { flex: 1; }
+        .input-group select { flex: 1; cursor: pointer; }
+
+        /* Buttons */
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
+        }
+
+        /* Table & Document Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f8f9fa; color: #333; }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .status-attended { background: #d4edda; color: #155724; }
+        .status-noclass, .status-cancelled { background: #f8d7da; color: #721c24; }
+        .status-absence { background: #fff3cd; color: #856404; }
+
+        .doc-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;}
+        .doc-footer { text-align: right; margin-top: 30px; font-size: 1.2rem; }
+        .doc-footer h3 { color: var(--primary); }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .card { box-shadow: none; padding: 0; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Academy Header with Custom Image and Titles -->
+    <!-- Academy Header with Logo, Image and Titles -->
     <header class="academy-header no-print">
-        <img src="WhatsApp Image 2026-09-26 at 16.09.16.jpeg" alt="Academy Background" class="header-image">
+        <!-- ADDED: Logo Image for the UI -->
+        <img src="logo.png" alt="KP Swarangal Logo" class="logo" onerror="this.src='https://via.placeholder.com/90?text=Logo'">
+        
         <div class="header-titles">
             <h1>KP Swarangal Vocal Class</h1>
             <h2>Online and Physical Class</h2>
@@ -42,29 +236,64 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="ratePerClass">Rate per Class ($)</label>
-                        <input type="number" id="ratePerClass" required min="1" step="0.5" placeholder="e.g., 30">
+                        <label for="ratePerClass">Rate per Class (RM/$)</label>
+                        <input type="number" id="ratePerClass" required min="1" step="0.5" placeholder="e.g., 50">
                     </div>
 
-                    <h3 class="section-title">Select Class Dates</h3>
+                    <h3 class="section-title">Select Class Dates & Status</h3>
+                    
+                    <!-- MODIFIED: Class Rows with Date and Status Dropdown -->
                     <div class="form-group-row">
                         <div class="form-group">
                             <label for="class1">Class 1</label>
-                            <input type="date" id="class1" required>
+                            <div class="input-group">
+                                <input type="date" id="class1" required>
+                                <select id="status1">
+                                    <option value="Attended">Attended</option>
+                                    <option value="Student Absence">Student Absence</option>
+                                    <option value="No Class">No Class</option>
+                                    <option value="Class Cancelled">Class Cancelled</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="class2">Class 2</label>
-                            <input type="date" id="class2" required>
+                            <div class="input-group">
+                                <input type="date" id="class2" required>
+                                <select id="status2">
+                                    <option value="Attended">Attended</option>
+                                    <option value="Student Absence">Student Absence</option>
+                                    <option value="No Class">No Class</option>
+                                    <option value="Class Cancelled">Class Cancelled</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
                     <div class="form-group-row">
                         <div class="form-group">
                             <label for="class3">Class 3</label>
-                            <input type="date" id="class3" required>
+                            <div class="input-group">
+                                <input type="date" id="class3" required>
+                                <select id="status3">
+                                    <option value="Attended">Attended</option>
+                                    <option value="Student Absence">Student Absence</option>
+                                    <option value="No Class">No Class</option>
+                                    <option value="Class Cancelled">Class Cancelled</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="class4">Class 4</label>
-                            <input type="date" id="class4" required>
+                            <div class="input-group">
+                                <input type="date" id="class4" required>
+                                <select id="status4">
+                                    <option value="Attended">Attended</option>
+                                    <option value="Student Absence">Student Absence</option>
+                                    <option value="No Class">No Class</option>
+                                    <option value="Class Cancelled">Class Cancelled</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -85,11 +314,10 @@
                             <th>Student Name</th>
                             <th>Rate/Class</th>
                             <th>Total Invoiced</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="ledgerBody">
-                        <!-- New monthly rows appear here -->
+                        <tr><td colspan="5" style="text-align:center; color:#888;">No records yet.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -103,25 +331,23 @@
                     <p>Official Invoice & Payment Receipt</p>
                 </div>
                 
-                <div class="doc-meta">
+                <div class="doc-meta" style="display:flex; justify-content: space-between; margin-bottom: 20px;">
                     <div>
-                        <strong>Receipt No:</strong> <span id="docId">-</span><br>
+                        <strong>Receipt No:</strong> <span id="docId">INV-0000</span><br>
                         <strong>Issue Date:</strong> <span id="docDate">-</span>
                     </div>
-                </div>
-
-                <div class="doc-details">
-                    <p><strong>Billed To (Student):</strong> <span id="docName">-</span></p>
-                    <p><strong>Billing Period:</strong> <span id="docMonth">-</span></p>
+                    <div style="text-align: right;">
+                        <strong>Billed To:</strong> <span id="docName">-</span><br>
+                        <strong>Billing Period:</strong> <span id="docMonth">-</span>
+                    </div>
                 </div>
 
                 <table class="doc-table">
                     <thead>
                         <tr>
                             <th>Class Date</th>
-                            <th>Description</th>
+                            <th>Status</th>
                             <th>Rate</th>
-                            <th>Payment Status</th>
                         </tr>
                     </thead>
                     <tbody id="docTableBody">
@@ -130,7 +356,7 @@
                 </table>
 
                 <div class="doc-footer">
-                    <h3>Grand Total: <span id="docGrandTotal">$0.00</span></h3>
+                    <h3>Grand Total: <span id="docGrandTotal">0.00</span></h3>
                     <p><em>Thank you for your dedication to music!</em></p>
                 </div>
             </div>
@@ -147,6 +373,94 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- INCLUDED JAVASCRIPT FOR UI AND INVOICE LOGIC -->
+    <script>
+        // Tab Navigation Logic
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active-tab");
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).classList.add("active-tab");
+            evt.currentTarget.className += " active";
+        }
+
+        // Form Submission Logic
+        document.getElementById('recordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get standard form data
+            const studentName = document.getElementById('studentName').value;
+            const billingMonth = document.getElementById('billingMonth').value;
+            const ratePerClass = parseFloat(document.getElementById('ratePerClass').value);
+            
+            let totalAmount = 0;
+            const docTableBody = document.getElementById('docTableBody');
+            docTableBody.innerHTML = ""; // Clear previous records
+
+            // Generate receipt ID and Date
+            const receiptId = 'INV-' + Math.floor(Math.random() * 100000);
+            const today = new Date().toLocaleDateString();
+
+            // Process all 4 classes
+            for(let i = 1; i <= 4; i++) {
+                const classDate = document.getElementById('class' + i).value;
+                const status = document.getElementById('status' + i).value;
+                
+                // Determine logic for billing: if cancelled or no class, we don't charge. 
+                // If Attended or Student Absence, they usually still pay (adjust logic here if needed).
+                let charge = ratePerClass;
+                let badgeClass = 'status-attended';
+
+                if(status === 'No Class' || status === 'Class Cancelled') {
+                    charge = 0; // Don't charge for these
+                    badgeClass = 'status-cancelled';
+                } else if (status === 'Student Absence') {
+                    badgeClass = 'status-absence';
+                }
+
+                totalAmount += charge;
+
+                // Add row to invoice table
+                const row = `<tr>
+                    <td>${classDate}</td>
+                    <td><span class="status-badge ${badgeClass}">${status}</span></td>
+                    <td>${charge.toFixed(2)}</td>
+                </tr>`;
+                docTableBody.innerHTML += row;
+            }
+
+            // Update Invoice Document Text
+            document.getElementById('docId').innerText = receiptId;
+            document.getElementById('docDate').innerText = today;
+            document.getElementById('docName').innerText = studentName;
+            document.getElementById('docMonth').innerText = billingMonth;
+            document.getElementById('docGrandTotal').innerText = totalAmount.toFixed(2);
+
+            // Add to Ledger Tab
+            const ledgerBody = document.getElementById('ledgerBody');
+            if(ledgerBody.innerHTML.includes('No records yet')) { ledgerBody.innerHTML = ''; }
+            
+            const ledgerRow = `<tr>
+                <td>${receiptId}</td>
+                <td>${billingMonth}</td>
+                <td>${studentName}</td>
+                <td>${ratePerClass.toFixed(2)}</td>
+                <td><strong>${totalAmount.toFixed(2)}</strong></td>
+            </tr>`;
+            ledgerBody.innerHTML += ledgerRow;
+
+            // Automatically switch to Document Tab
+            document.getElementById('docTabBtn').click();
+            
+            // Optional: Reset form
+            document.getElementById('recordForm').reset();
+        });
+    </script>
 </body>
 </html>
