@@ -27,6 +27,7 @@ body {
     filter: blur(80px);
     z-index: -1;
     opacity: 0.4;
+    pointer-events: none; /* Fixed: Prevents orbs from blocking mouse clicks */
     animation: floatOrb 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
 }
 .orb-1 { width: 400px; height: 400px; background: #E6D4FF; top: -100px; left: -100px; }
@@ -74,6 +75,7 @@ body {
 .logo {
     width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
     border: 3px solid var(--accent-gold);
+    background-color: white;
     animation: pulseGlow 3s infinite;
 }
 .logo-edit {
@@ -158,6 +160,15 @@ body {
 .btn-elegant:hover::after { opacity: 1; animation: rotate 2s linear infinite; }
 @keyframes rotate { 100% { transform: rotate(360deg); } }
 
+/* Fixed Print Button Positioning */
+.print-btn { 
+    max-width: 300px; 
+    margin: 30px auto; 
+    display: block; 
+    position: relative;
+    z-index: 999; /* Forces the button above any other elements */
+}
+
 /* --- TABLES & BADGES --- */
 .table-container { overflow-x: auto; }
 table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin-top: 10px; }
@@ -199,8 +210,6 @@ tr:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 .total-box h3 { margin: 0; font-size: 2.2rem; font-family: 'Cinzel', serif; color: var(--accent-gold); }
 .gratitude { margin-top: 20px; font-style: italic; color: var(--text-light); font-size: 0.95rem; }
 
-.print-btn { max-width: 300px; margin: 30px auto; display: block; }
-
 /* Sync Tab Style */
 .upload-area { display: block; border: 2px dashed #CBD5E1; padding: 40px; border-radius: 16px; background: rgba(255,255,255,0.5); cursor: not-allowed; transition: 0.3s; }
 .upload-icon { font-size: 3rem; margin-bottom: 10px; }
@@ -208,7 +217,7 @@ tr:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 @media print {
     body { background: white; }
     .no-print { display: none !important; }
-    .invoice-card { box-shadow: none; padding: 0; }
+    .invoice-card { box-shadow: none; padding: 0; margin: 0; border: none; }
     .invoice-border { border: none; padding: 0; }
     .invoice-border::before { display: none; }
     .doc-meta { background: transparent; border: 1px solid #eee; }
