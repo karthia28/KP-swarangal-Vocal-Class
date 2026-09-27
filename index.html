@@ -26,7 +26,6 @@
         
         <div class="header-content fade-in-up">
             <div class="logo-container">
-                <!-- Infinite loading bug fixed here -->
                 <img src="logo.png" alt="KP Swarangal Logo" class="logo" id="logoImg" onerror="this.onerror=null; this.src='https://via.placeholder.com/120?text=Logo'">
                 <label for="logoUpload" class="logo-edit" title="Upload Logo">📷</label>
                 <input type="file" id="logoUpload" accept="image/*" style="display:none;">
@@ -205,8 +204,8 @@
                 </div>
             </div>
             
-            <!-- Fixed Print Button -->
-            <button type="button" id="printBtn" class="btn-elegant no-print print-btn glow-effect">🖨️ Print / Save as PDF</button>
+            <!-- Direct inline onclick guarantees it will open print preview -->
+            <button type="button" onclick="window.print()" class="btn-elegant no-print print-btn glow-effect">🖨️ Print / Save as PDF</button>
         </div>
 
         <!-- Tab 4: Sync -->
