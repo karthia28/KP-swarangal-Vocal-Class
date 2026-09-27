@@ -1,16 +1,30 @@
 // ==========================================
-// 1. FLUID SLIDING TAB INITIALIZATION
+// 1. LOAD SAVED LOGO & BANNER FROM LOCALSTORAGE
+// ==========================================
+window.addEventListener('load', () => {
+    const savedLogo = localStorage.getItem('kp_swarangal_logo');
+    if (savedLogo) {
+        document.getElementById('logoImg').src = savedLogo;
+    }
+
+    const savedBanner = localStorage.getItem('kp_swarangal_banner');
+    if (savedBanner) {
+        const header = document.getElementById('headerBanner');
+        header.style.backgroundImage = `linear-gradient(to bottom, rgba(26, 15, 46, 0.85), rgba(75, 46, 131, 0.9)), url('${savedBanner}')`;
+    }
+
+    const initialActive = document.querySelector('.tab-link.active');
+    if (initialActive) updateTabIndicator(initialActive);
+});
+
+// ==========================================
+// 2. FLUID SLIDING TAB INITIALIZATION
 // ==========================================
 function updateTabIndicator(activeButton) {
     const indicator = document.getElementById('tabIndicator');
     indicator.style.left = activeButton.offsetLeft + 'px';
     indicator.style.width = activeButton.offsetWidth + 'px';
 }
-
-window.addEventListener('load', () => {
-    const initialActive = document.querySelector('.tab-link.active');
-    if (initialActive) updateTabIndicator(initialActive);
-});
 
 window.addEventListener('resize', () => {
     const activeBtn = document.querySelector('.tab-link.active');
@@ -35,17 +49,20 @@ function openTab(evt, tabName) {
 }
 
 // ==========================================
-// 2. IMAGE UPLOAD LOGIC
+// 3. IMAGE UPLOAD & PERSISTENCE
 // ==========================================
 document.getElementById('logoUpload').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if(file) {
         const reader = new FileReader();
         reader.onload = function(e) {
+            const base64Data = e.target.result;
+            localStorage.setItem('kp_swarangal_logo', base64Data); // Save permanently
+            
             const logo = document.getElementById('logoImg');
             logo.style.transform = 'scale(0.5)';
             setTimeout(() => {
-                logo.src = e.target.result;
+                logo.src = base64Data;
                 logo.style.transform = 'scale(1)';
             }, 200);
         }
@@ -58,10 +75,13 @@ document.getElementById('bannerUpload').addEventListener('change', function(even
     if(file) {
         const reader = new FileReader();
         reader.onload = function(e) {
+            const base64Data = e.target.result;
+            localStorage.setItem('kp_swarangal_banner', base64Data); // Save permanently
+
             const header = document.getElementById('headerBanner');
             header.style.opacity = '0.5';
             setTimeout(() => {
-                header.style.backgroundImage = `linear-gradient(to bottom, rgba(26, 15, 46, 0.85), rgba(75, 46, 131, 0.9)), url('${e.target.result}')`;
+                header.style.backgroundImage = `linear-gradient(to bottom, rgba(26, 15, 46, 0.85), rgba(75, 46, 131, 0.9)), url('${base64Data}')`;
                 header.style.opacity = '1';
             }, 300);
         }
@@ -70,7 +90,7 @@ document.getElementById('bannerUpload').addEventListener('change', function(even
 });
 
 // ==========================================
-// 3. STRICT INVOICE GENERATION LOGIC
+// 4. STRICT INVOICE GENERATION LOGIC
 // ==========================================
 document.getElementById('recordForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -99,18 +119,18 @@ document.getElementById('recordForm').addEventListener('submit', function(e) {
             let charge = 0; 
             let badgeClass = '';
 
-            // STRICT LOGIC: ONLY "Attended" charges a fee. EVERYTHING else is 0.
+            // STRICT LOGIC: ONLY "Attended" charges a fee. EVERYTHING else is $0.
             if(status === 'Attended') {
                 charge = ratePerClass;
                 badgeClass = 'status-attended';
             } else if (status === 'Student Absence') {
-                charge = 0; // STRICTLY $0
+                charge = 0; 
                 badgeClass = 'status-absence';
             } else if (status === 'No Class') {
-                charge = 0; // STRICTLY $0
+                charge = 0; 
                 badgeClass = 'status-cancelled';
             } else if (status === 'Class Cancelled') {
-                charge = 0; // STRICTLY $0
+                charge = 0; 
                 badgeClass = 'status-cancelled';
             }
 
@@ -148,12 +168,4 @@ document.getElementById('recordForm').addEventListener('submit', function(e) {
         document.getElementById('docTabBtn').click();
         document.getElementById('recordForm').reset();
     }, 600); 
-});
-
-// ==========================================
-// 4. PRINT / SAVE AS PDF FIX
-// ==========================================
-document.getElementById('printBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.print();
 });
